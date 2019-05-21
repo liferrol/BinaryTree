@@ -128,7 +128,7 @@ class BinaryTreeSearch {
     }
 
     public void FindNeighbourhoodParent(int value) {
-        root = findParent(root, value);
+        root = findParent(root, null, value);
     }
 }
 
