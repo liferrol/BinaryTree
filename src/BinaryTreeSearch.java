@@ -1,16 +1,15 @@
-import java.util.LinkedList;
-import java.util.Queue;
-
 class BinaryTreeSearch {
     class Node {
         int value;
         Node left;
         Node right;
+        Node parent;
 
         Node(int value) {
             this.value = value;
             right = null;
             left = null;
+            parent = null;
         }
     }
 
@@ -42,8 +41,14 @@ class BinaryTreeSearch {
             return null;
         }
         if (value == current.value) {
+            if (current.left != null) {
+                current = current.left;
+            }
+            if (current.left == null && current.right != null) {
+                current = current.right;
+            }
             if (current.left == null && current.right == null) {
-                return null;
+                current = null;
             }
         }
         return current;
@@ -54,81 +59,60 @@ class BinaryTreeSearch {
     }
 
 
-    private Node findNode(Node root, int value) {
-        if (this.root == null) {
-            return null;
-        }
-        Queue<Node> Nodes = new LinkedList<>();
-        Nodes.add(this.root);
-
-        while (!Nodes.isEmpty()) {
-
-            Node nodex = Nodes.remove();
-
-            System.out.print(" " + nodex.value);
-
-            if (nodex.left != null) {
-                Nodes.add(nodex.left);
-            }
-
-            if (nodex.right != null) {
-                Nodes.add(nodex.right);
-            }
-        }
-        return root;
+    private boolean findNode(Node root, int value) {
+        if (root == null)
+            return false;
+        return root.value == value;
     }
 
-    public void Find(int value) {
-        root = findNode(root, value);
+    public boolean Find(int value) {
+        return findNode(root, value);
     }
 
-    private Node findNeighbourhoodleft(Node current, int value) {
+    private int findNeighbourhoodleft(Node current, int value, Node answer) {
         if (current == null) {
-            return null;
+            return 0;
         }
-        Node root = null;
         if (current.left != null) {
-            assert root != null;
-            root = (current.left);
+            answer = current.left;
         }
-        return root;
+        return answer.value;
     }
 
-    public void FindNeighbourhoodLeft(Node current, int value) {
-        root = findNeighbourhoodleft(root, value);
+    public int FindNeighbourhoodLeft(int value) {
+        return findNeighbourhoodleft(root, value, null);
     }
 
 
-    private Node findNeighbourhoodRight(Node current, int value) {
+    private int findNeighbourhoodRight(Node current, int value, Node answer) {
         if (current == null) {
-            return null;
+            return 0;
         }
-        Node root = null;
         if (current.right != null) {
-            assert root != null;
-            root = (current.right);
+            answer = current.right;
         }
-        return root;
+        return answer.value;
     }
 
-    public void FindNeighbourhoodRight(Node current, int value) {
-        root = findNeighbourhoodRight(root, value);
+    public int FindNeighbourhoodRight(int value) {
+        return findNeighbourhoodRight(root, value, null);
     }
 
 
-    private Node findParent(Node current, Node parent, int value) {
+    private int findParent(Node current, Node parent, int value) {
         if (current == null) {
-            return null;
+            return 0;
         }
-            Node root = null;
-            if (current == parent.left) {
-                root = parent;
-            }
-            return root;
+        if (current.value == root.left.value) {
+            parent = root;
+        }
+        return parent.value;
     }
 
-    public void FindNeighbourhoodParent(int value) {
-        root = findParent(root, null, value);
+    public int FindNeighbourhoodParent(int value) {
+        return findParent(root, null, value);
     }
 }
+
+
 
